@@ -5,6 +5,20 @@ All notable changes to rust-skills will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.9] - 2025-01-22
+
+### Changed
+- **Improved installation documentation** in all READMEs (EN/ZH/JA):
+  - Added two-step marketplace installation guide (`/plugin marketplace add` + `/plugin install`)
+  - Clarified the difference between adding marketplace and installing plugin
+
+### Added
+- **Dependent Skills section** in all READMEs:
+  - [actionbook/actionbook](https://github.com/actionbook/actionbook) - MCP server for website action manuals
+  - [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser) - Browser automation tool
+
+---
+
 ## [2.0.8] - 2025-01-22
 
 ### Added

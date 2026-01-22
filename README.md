@@ -4,7 +4,7 @@
 
 > AI-powered Rust development assistant with meta-cognition framework
 
-[![Version](https://img.shields.io/badge/version-2.0.8-green.svg)](https://github.com/ZhangHanDong/rust-skills/releases)
+[![Version](https://img.shields.io/badge/version-2.0.9-green.svg)](https://github.com/ZhangHanDong/rust-skills/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-blue)](https://github.com/anthropics/claude-code)
 
@@ -48,11 +48,17 @@ AI (with Rust Skills):
 
 ### Method 1: Marketplace (Recommended)
 
-Install directly from Claude Code Plugin Marketplace:
+Install from Claude Code Plugin Marketplace in two steps:
 
 ```bash
+# Step 1: Add the marketplace
 /plugin marketplace add ZhangHanDong/rust-skills
+
+# Step 2: Install the plugin
+/plugin install rust-skills@rust-skills
 ```
+
+> **Note**: Step 1 only adds the marketplace (plugin source). Step 2 actually installs the rust-skills plugin with all features enabled.
 
 ### Method 2: NPX
 
@@ -128,6 +134,15 @@ See [.claude/settings.example.json](.claude/settings.example.json) for reference
 
 - **OpenCode**: See [.opencode/INSTALL.md](.opencode/INSTALL.md)
 - **Codex**: See [.codex/INSTALL.md](.codex/INSTALL.md)
+
+## Dependent Skills
+
+Rust Skills relies on these external tools for full functionality:
+
+| Tool | Description | GitHub |
+|------|-------------|--------|
+| **actionbook** | MCP server for website action manuals. Used by agents to fetch structured web content (Rust releases, crate info, documentation). | [actionbook/actionbook](https://github.com/actionbook/actionbook) |
+| **agent-browser** | Browser automation tool for fetching real-time web data. Fallback when actionbook is unavailable. | [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser) |
 
 ## Meta-Cognition Framework
 

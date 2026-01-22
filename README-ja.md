@@ -4,7 +4,7 @@
 
 > メタ認知フレームワークを備えた AI Rust 開発アシスタント
 
-[![Version](https://img.shields.io/badge/version-2.0.8-green.svg)](https://github.com/ZhangHanDong/rust-skills/releases)
+[![Version](https://img.shields.io/badge/version-2.0.9-green.svg)](https://github.com/ZhangHanDong/rust-skills/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-blue)](https://github.com/anthropics/claude-code)
 
@@ -48,11 +48,17 @@ AI (Rust Skills 使用):
 
 ### 方法1：Marketplace（推奨）
 
-Claude Code プラグインマーケットプレイスから直接インストール：
+Claude Code プラグインマーケットプレイスから2ステップでインストール：
 
 ```bash
+# ステップ 1: marketplace を追加
 /plugin marketplace add ZhangHanDong/rust-skills
+
+# ステップ 2: プラグインをインストール
+/plugin install rust-skills@rust-skills
 ```
+
+> **注意**：ステップ 1 は marketplace（プラグインソース）を追加するだけです。ステップ 2 で実際に rust-skills プラグインをインストールし、すべての機能を有効にします。
 
 ### 方法2：NPX
 
@@ -128,6 +134,15 @@ EOF
 
 - **OpenCode**: [.opencode/INSTALL.md](.opencode/INSTALL.md) を参照
 - **Codex**: [.codex/INSTALL.md](.codex/INSTALL.md) を参照
+
+## 依存 Skills
+
+Rust Skills は完全な機能のために以下の外部ツールに依存しています：
+
+| ツール | 説明 | GitHub |
+|--------|------|--------|
+| **actionbook** | ウェブサイトアクションマニュアル用 MCP サーバー。エージェントが構造化されたウェブコンテンツ（Rust リリース、crate 情報、ドキュメント）を取得するために使用。 | [actionbook/actionbook](https://github.com/actionbook/actionbook) |
+| **agent-browser** | リアルタイムウェブデータ取得のためのブラウザ自動化ツール。actionbook が利用できない場合のフォールバック。 | [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser) |
 
 ## メタ認知フレームワーク
 

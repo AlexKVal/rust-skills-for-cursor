@@ -4,7 +4,7 @@
 
 > 基于元认知框架的 AI Rust 开发助手
 
-[![Version](https://img.shields.io/badge/version-2.0.8-green.svg)](https://github.com/ZhangHanDong/rust-skills/releases)
+[![Version](https://img.shields.io/badge/version-2.0.9-green.svg)](https://github.com/ZhangHanDong/rust-skills/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-blue)](https://github.com/anthropics/claude-code)
 
@@ -48,11 +48,17 @@ AI (使用 Rust Skills):
 
 ### 方式一：Marketplace 安装（推荐）
 
-直接从 Claude Code 插件市场安装：
+从 Claude Code 插件市场分两步安装：
 
 ```bash
+# 步骤 1: 添加 marketplace
 /plugin marketplace add ZhangHanDong/rust-skills
+
+# 步骤 2: 安装插件
+/plugin install rust-skills@rust-skills
 ```
+
+> **注意**：步骤 1 仅添加 marketplace（插件源）。步骤 2 才是真正安装 rust-skills 插件，启用所有功能。
 
 ### 方式二：NPX 安装
 
@@ -128,6 +134,15 @@ EOF
 
 - **OpenCode**: 参见 [.opencode/INSTALL.md](.opencode/INSTALL.md)
 - **Codex**: 参见 [.codex/INSTALL.md](.codex/INSTALL.md)
+
+## 依赖 Skills
+
+Rust Skills 依赖以下外部工具以获得完整功能：
+
+| 工具 | 说明 | GitHub |
+|------|------|--------|
+| **actionbook** | 网站操作手册 MCP 服务器。用于 agents 获取结构化网页内容（Rust 版本、crate 信息、文档）。 | [actionbook/actionbook](https://github.com/actionbook/actionbook) |
+| **agent-browser** | 浏览器自动化工具，用于获取实时网页数据。作为 actionbook 不可用时的备选方案。 | [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser) |
 
 ## 元认知框架
 
