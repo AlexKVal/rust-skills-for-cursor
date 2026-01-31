@@ -31,7 +31,7 @@ AI (with rust-skills):
 ### Step 1: Clone to Cursor Skills Directory
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/rust-skills-for-cursor.git ~/.cursor/skills/rust-skills
+git clone https://github.com/AlexKVal/rust-skills-for-cursor.git ~/.cursor/skills/rust-skills
 ```
 
 ### Step 2: Done
