@@ -38,6 +38,25 @@ git clone https://github.com/AlexKVal/rust-skills-for-cursor.git ~/.cursor/skill
 
 The skill is now available globally for all your Rust projects. Cursor will automatically use it when you work with Rust code.
 
+## Verify It Works
+
+Open any Rust project in Cursor and try this test prompt:
+
+```
+My PagedTable needs to borrow the Pager, but I also need to pass it to BufferPool. Getting borrow conflicts.
+```
+
+**If rust-skills is working**, the response should:
+- Ask "Who should own this data?" (not just "use clone")
+- Analyze the **design roles** (Pager as I/O, BufferPool as cache, etc.)
+- Suggest an **ownership hierarchy** based on domain context
+- Reference **layers** or mention tracing through them
+
+**Example of a working response:**
+> "The key insight from the ownership skill: 'Who should own this data?' — The Pager is an I/O resource. BufferPool is the caching layer. PagedTable is the record-level abstraction. Clean ownership hierarchy, no shared references needed."
+
+If you just get "use `Arc`" or "add `.clone()`" without design reasoning, the skill may not be loaded.
+
 ## What's Included
 
 ### Core Framework (`SKILL.md`)
