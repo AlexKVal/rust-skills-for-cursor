@@ -52,4 +52,5 @@ For detailed patterns, see the skills/ directory:
 - `skills/m06-error-handling/` - thiserror vs anyhow, error strategies
 - `skills/m07-concurrency/` - async patterns, Send/Sync
 - `skills/unsafe-checker/` - unsafe code review
+- `skills/code-review/` - code smell analysis and refactoring
 - `skills/domain-*/` - domain-specific constraints

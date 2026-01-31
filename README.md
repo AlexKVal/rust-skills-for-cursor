@@ -22,7 +22,7 @@ AI (with rust-skills):
 ├── Layer 1: E0382 = ownership error
 │       ↑ Trace UP
 ├── Layer 3: Trading = audit trail requirement → immutable shared data
-│       ↓ Trace DOWN  
+│       ↓ Trace DOWN
 └── Solution: Use Arc<T>, not clone()
 ```
 
@@ -34,9 +34,18 @@ AI (with rust-skills):
 git clone https://github.com/AlexKVal/rust-skills-for-cursor.git ~/.cursor/skills/rust-skills
 ```
 
-### Step 2: Done
+> ⚠️ **Important**: Clone directly to `~/.cursor/skills/`. Symlinks are not supported—Cursor doesn't follow symlinks when discovering skills.
 
-The skill is now available globally for all your Rust projects. Cursor will automatically use it when you work with Rust code.
+### Step 2: Restart Cursor
+
+Skills are discovered when Cursor starts. After cloning, restart the IDE.
+
+### Step 3: Verify Installation
+
+1. Open **Cursor Settings** (Cmd+Shift+J on Mac, Ctrl+Shift+J on Windows/Linux)
+2. Navigate to **Rules**
+3. Check the **Skills** section — `rust-skills` should appear there
+
 
 ## Verify It Works
 
@@ -74,6 +83,12 @@ The main skill file contains:
 | `m06-error-handling` | Result, Option, thiserror, anyhow |
 | `m07-concurrency` | Async, Send/Sync, threading |
 | `unsafe-checker` | Unsafe code review, FFI |
+
+### Layer 2 Skills (Design & Quality)
+
+| Skill | Purpose |
+|-------|---------|
+| `code-review` | Code smell detection, refactoring guidance |
 
 ### Layer 3 Skills (Domain Constraints)
 
@@ -120,6 +135,7 @@ This fork is specifically optimized for Cursor IDE:
     ├── m06-error-handling/SKILL.md
     ├── m07-concurrency/SKILL.md
     ├── unsafe-checker/SKILL.md
+    ├── code-review/SKILL.md    # Code smell analysis
     ├── domain-fintech/SKILL.md
     ├── domain-web/SKILL.md
     ├── domain-cli/SKILL.md

@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.1.0] - 2026-01-31
+
+### Added: Code Review Skill
+
+New skill for holistic code smell analysis and refactoring.
+
+**Features:**
+- Self-executing process (no manual intervention needed)
+- Persists findings to `docs/code-review-findings.md` for long sessions
+- Auto-checkpoints every 5 files
+- Resumable if session is interrupted
+- Comprehensive Rust-specific smell checklist:
+  - Ownership & borrowing (unnecessary clone, RefCell misuse)
+  - Error handling (bare unwrap, missing context)
+  - API design (naming conventions, visibility, `#[must_use]`)
+  - Structural (Feature Envy, Tell Don't Ask, Middle Man)
+  - Duplication (copy-paste, similar patterns)
+
+**Triggers:** "code smell", "code review", "refactor", "cleanup", "technical debt"
+
+**Usage:** Just ask "Review this codebase for code smells" and the AI will automatically scan all `.rs` files and produce a findings report.
+
+---
+
 ## [1.0.0] - 2026-01-31
 
 ### Fork Creation
