@@ -21,84 +21,14 @@ The user will see results in:
 4. Brief status: "Reviewing N files..."
 ```
 
-### Step 1.5: Mechanical Pattern Scan (MANDATORY - Before Subjective Review)
-
-Run these grep patterns on ALL .rs files FIRST. Every match is a CANDIDATE finding.
-Only clear a candidate after EXPLICIT verification that it's intentional.
-
-**Universal Checks (always run):**
-```bash
-# API naming
-rg 'fn get_[a-z]'           # Getter prefix - should be fn name() not fn get_name()
-rg 'fn set_[a-z]'           # Setter prefix - consider builder pattern or direct field
-
-# Error handling
-rg '\.unwrap\(\)'           # Potential panic - verify intentional or use ? / expect
-rg '\.expect\("'            # Check message is descriptive
-rg 'panic!\('               # Verify this is truly unrecoverable
-
-# Cloning
-rg '\.clone\(\)'            # Verify necessary - often a design smell
-
-# Visibility
-rg 'pub fn'                 # Check if truly needs to be public
-
-# Suboptimal types
-rg 'fn.*&String'            # Should be &str
-rg 'fn.*&Vec<'              # Should be &[T]
-rg '&Box<'                  # Usually just &T or &dyn Trait
-
-# Unsafe
-rg 'unsafe \{'              # Verify SAFETY comment exists above
-rg 'unsafe fn'              # Verify /// # Safety doc exists
-
-# Deprecated patterns  
-rg 'mem::uninitialized'     # Use MaybeUninit
-rg 'mem::zeroed'            # Usually want MaybeUninit
-rg 'static mut'             # Use atomics or Mutex instead
-```
-
-**Domain-Specific Checks (detect and run if applicable):**
-
-If web/axum/actix detected:
-```bash
-rg 'Rc<'                    # Should be Arc for thread safety
-rg '\.lock\(\).*\.await'    # Guard held across await point
-```
-
-If fintech/money/trading detected:
-```bash
-rg ': f64'                  # Never use float for money - use rust_decimal
-rg ': f32'                  # Never use float for money - use rust_decimal  
-rg 'as f64'                 # Float conversion in financial context
-```
-
-If embedded/no_std detected:
-```bash
-rg 'Vec<'                   # Should use heapless::Vec
-rg 'String'                 # Should use heapless::String
-rg 'Box<'                   # No heap allocation in no_std
-```
-
-If CLI detected:
-```bash
-rg 'println!\(.*[Ee]rror'   # Errors should go to stderr (eprintln!)
-rg 'println!\(.*[Ff]ailed'  # Errors should go to stderr (eprintln!)
-```
-
-**Recording candidates:**
-For each grep match, add to findings file with status "Candidate" before review.
-During Step 2, change status to either "Confirmed" (it's a smell) or "Cleared" (intentional/false positive with reason).
-
 ### Step 2: Review Loop (Automatic)
 ```
 For each file in todos:
   1. Read the file
-  2. Review candidates from Step 1.5 that match this file - confirm or clear each
-  3. Check against smell checklist below for additional issues
-  4. Update docs/code-review-findings.md immediately (don't accumulate)
-  5. Mark todo complete
-  6. Every 5 files: update Summary section in findings file with progress
+  2. Check against smell checklist below
+  3. Update docs/code-review-findings.md immediately (don't accumulate)
+  4. Mark todo complete
+  5. Every 5 files: update Summary section in findings file with progress
 ```
 
 ### Step 3: Auto-Fix (No User Prompt)
@@ -201,9 +131,9 @@ Automatically fix all High and Medium severity issues:
 - Test code duplication (often acceptable for clarity)
 - Single-use code that's clear as-is
 
-## Valid Exceptions (Clear These Candidates)
+## Valid Exceptions
 
-Some grep matches are NOT smells. Document reason when clearing:
+Some patterns are NOT smells. Skip these during review:
 
 | Pattern | Valid When | Example |
 |---------|------------|---------|
@@ -234,13 +164,12 @@ Status: In Progress | Complete
 - Files reviewed: 0/N
 - Fixed: High: 0, Medium: 0
 - Skipped (Low): 0
-- Cleared (false positives): 0
 
 ## Findings
 
 | # | File | Line | Smell | Severity | Status | Notes |
 |---|------|------|-------|----------|--------|-------|
-<!-- Status: Fixed | Skipped | Cleared (reason) -->
+<!-- Status: Fixed | Skipped -->
 
 ## Notes
 
