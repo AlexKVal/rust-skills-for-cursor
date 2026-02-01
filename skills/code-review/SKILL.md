@@ -5,16 +5,20 @@ description: Code smell analysis for Rust. Triggers: code smell, code review, re
 
 # Rust Code Review
 
-## CRITICAL: Execute This Process Automatically
+## CRITICAL: Fully Autonomous Execution
 
-**Do NOT wait for user prompts between steps. Execute the full process:**
+**Run the ENTIRE process without stopping for user input. No questions, no confirmations.**
+
+The user will see results in:
+- Git commit diff (what changed)
+- `docs/code-review-findings.md` (details if they want them)
 
 ### Step 1: Initialize (Do Immediately)
 ```
 1. Create docs/code-review-findings.md with template below
-2. Glob for all *.rs files in crates/
+2. Glob for all *.rs files in crates/ (or src/ if no crates/)
 3. Create TodoWrite with all files as pending
-4. Tell user: "Starting review of N files. Findings will be saved to docs/code-review-findings.md"
+4. Brief status: "Reviewing N files..."
 ```
 
 ### Step 1.5: Mechanical Pattern Scan (MANDATORY - Before Subjective Review)
@@ -97,17 +101,51 @@ For each file in todos:
   6. Every 5 files: update Summary section in findings file with progress
 ```
 
-### Step 3: Finalize
+### Step 3: Auto-Fix (No User Prompt)
+```
+Automatically fix all High and Medium severity issues:
+1. For each confirmed High/Medium finding:
+   - Apply the fix
+   - Update findings file: mark as "Fixed"
+2. Skip Low severity (not worth the tokens unless trivial)
+3. Exception: Skip if fix requires architectural decisions or user input
+```
+
+**What to fix automatically:**
+- Getter naming (`get_x` → `x`)
+- `&String` → `&str`, `&Vec<T>` → `&[T]`
+- Missing `#[must_use]` on pure functions
+- Unnecessary `.clone()` when reference works
+- `unwrap()` → `expect("reason")` or `?`
+- Visibility reduction (`pub` → `pub(crate)` when internal)
+
+**What to skip (even if High/Medium):**
+- Structural refactors (Feature Envy, Extract Method) - too invasive
+- Error type redesigns - needs user decision
+- Anything that changes public API signatures
+
+### Step 4: Verify
+```
+1. Run: cargo check
+2. Run: cargo test
+3. Run: cargo clippy (if available)
+4. If any fail: revert problematic fix, update findings file
+```
+
+### Step 5: Commit & Report
 ```
 1. Update findings file: Status = Complete, final counts
-2. Present summary to user
-3. Ask: "Want me to fix any of these? (specify by number or 'all High')"
+2. Commit all changes with message summarizing fixes
+3. Brief final message (2-3 lines max):
+   "Code review complete. Fixed N issues (H high, M medium). 
+    L low-priority items noted in docs/code-review-findings.md.
+    Tests pass."
 ```
 
 ### If Session Resumes
 ```
 1. Read docs/code-review-findings.md first
-2. Check which files already reviewed
+2. Check which files already reviewed/fixed
 3. Continue from where left off
 ```
 
@@ -190,30 +228,19 @@ Create this at `docs/code-review-findings.md`:
 # Code Review Findings
 
 Generated: [DATE]
-Status: In Progress
+Status: In Progress | Complete
 
 ## Summary
 - Files reviewed: 0/N
-- Candidates from pattern scan: N
-- Confirmed findings: High: 0, Medium: 0, Low: 0
+- Fixed: High: 0, Medium: 0
+- Skipped (Low): 0
 - Cleared (false positives): 0
 
-## Pattern Scan Candidates
+## Findings
 
-| # | File | Line | Pattern | Status | Notes |
-|---|------|------|---------|--------|-------|
-<!-- Status: Candidate → Confirmed/Cleared -->
-
-## Confirmed Findings
-
-| # | File | Line | Smell | Severity | Suggested Fix |
-|---|------|------|-------|----------|---------------|
-
-## Cleared Candidates
-
-| # | File | Line | Pattern | Reason |
-|---|------|------|---------|--------|
-<!-- Document WHY each was cleared to prevent re-flagging -->
+| # | File | Line | Smell | Severity | Status | Notes |
+|---|------|------|-------|----------|--------|-------|
+<!-- Status: Fixed | Skipped | Cleared (reason) -->
 
 ## Notes
 
@@ -224,6 +251,25 @@ Status: In Progress
 
 ## Severity Guide
 
-- **High**: Will cause bugs OR makes bugs hard to find OR blocks future changes
+- **High**: Will cause bugs, makes bugs hard to find, or blocks future work
 - **Medium**: Makes code harder to change safely
 - **Low**: Makes code harder to understand
+
+---
+
+## AI-Optimized Priorities
+
+This codebase is maintained by AI agents. Prioritize fixes that help future agents:
+
+| Priority | Why It Helps Agents |
+|----------|---------------------|
+| Consistent naming | Pattern matching, predictable APIs |
+| Explicit types | Less inference needed, clearer context |
+| Small functions | Fit in context window, easier to modify |
+| Good error messages | Faster debugging when things fail |
+| `#[must_use]` | Compiler catches forgotten returns |
+
+**Don't optimize for:**
+- Human readability concerns that don't affect agents
+- Documentation prose (agents read code directly)
+- Aesthetic preferences with no functional impact
